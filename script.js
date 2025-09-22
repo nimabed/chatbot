@@ -21,18 +21,46 @@ function ChatMessage({ message, sender }) {
 }
 
 
+function ChatMessages() {
+  const messages = [{
+    message: 'Hello chatbot',
+    sender: 'user',
+    id: 'id1'
+  }, {
+    message: 'Hi, How can i help you?',
+    sender: 'robot',
+    id: 'id2'
+  }, {
+    message: 'Flip the coin',
+    sender: 'user',
+    id: 'id3'
+  }, {
+    message: 'Fliped and it is head',
+    sender: 'robot',
+    id: 'id4'
+  }]
+
+  return messages.map((chatMessage) => {
+    return (
+      <ChatMessage 
+        message = {chatMessage.message}
+        sender = {chatMessage.sender}
+        key = {chatMessage.id}
+      />
+    )
+  })
+}
+
+
 
 function App() {
   return (
     <>
       <MessageBox />
-      <ChatMessage message="Hello chatbot" sender="user" />
-      <ChatMessage message="Hi, How can i help you?" sender="robot" />
+      <ChatMessages />
     </>
   );
 }
-
-
 
 
 
