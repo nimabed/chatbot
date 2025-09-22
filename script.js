@@ -1,11 +1,46 @@
 const container = document.querySelector('.js-container');
 const root = ReactDOM.createRoot(container);
 
-function MessageBox() {
+function MessageBox({ chatMessages, setChatMessages }) {
+  const [inputText, setInputText] = React.useState('');
+
+  function saveInputText(event) {
+    setInputText(event.target.value);
+    
+  }
+
+  function sendMessage() {
+
+    const userInput = [
+      ...chatMessages,
+      {
+        message: inputText,
+        sender: 'user',
+        id: crypto.randomUUID()
+      }
+    ];
+
+    setInputText('');
+
+    const response = Chatbot.getResponse(inputText);
+    setChatMessages([
+      ...userInput,
+      {
+        message: response,
+        sender: 'robot',
+        id: crypto.randomUUID()
+      }
+    ]);
+  }
+
   return (
     <>
-      <input placeholder="Send message to chatbot" />
-      <button>Send</button>
+      <input 
+        placeholder="Send message to chatbot"
+        onChange={saveInputText}
+        value={inputText}
+      />
+      <button onClick={sendMessage}>Send</button>
     </>
   );
 }
@@ -21,8 +56,26 @@ function ChatMessage({ message, sender }) {
 }
 
 
-function ChatMessages() {
-  const messages = [{
+function ChatMessages({chatMessages}) {
+  return (
+    <>
+      {chatMessages.map((chatMessage) => {
+        return (
+          <ChatMessage 
+            message = {chatMessage.message}
+            sender = {chatMessage.sender}
+            key = {chatMessage.id}
+          />
+        );
+      })}
+    </>
+  );
+}
+
+
+function App() {
+
+  const [chatMessages, setChatMessages] = React.useState([{
     message: 'Hello chatbot',
     sender: 'user',
     id: 'id1'
@@ -38,31 +91,20 @@ function ChatMessages() {
     message: 'Fliped and it is head',
     sender: 'robot',
     id: 'id4'
-  }]
+  }]);
 
-  return messages.map((chatMessage) => {
-    return (
-      <ChatMessage 
-        message = {chatMessage.message}
-        sender = {chatMessage.sender}
-        key = {chatMessage.id}
-      />
-    )
-  })
-}
-
-
-
-function App() {
   return (
     <>
-      <MessageBox />
-      <ChatMessages />
+      <MessageBox 
+        chatMessages={chatMessages}
+        setChatMessages={setChatMessages}
+      />
+      <ChatMessages 
+        chatMessages={chatMessages}
+      />
     </>
   );
 }
 
 
-
-
-root.render(App());
+root.render(<App />);
