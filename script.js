@@ -6,11 +6,9 @@ function MessageBox({ chatMessages, setChatMessages }) {
 
   function saveInputText(event) {
     setInputText(event.target.value);
-    
   }
 
   function sendMessage() {
-
     const userInput = [
       ...chatMessages,
       {
@@ -33,11 +31,40 @@ function MessageBox({ chatMessages, setChatMessages }) {
     ]);
   }
 
+  function sendByKey(event) {
+    if (event.key === 'Escape') {
+      setInputText('');
+    } else if (event.key === 'Enter') {
+      const userInput = [
+        ...chatMessages,
+        {
+          message: inputText,
+          sender: 'user',
+          id: crypto.randomUUID()
+        }
+      ];
+
+      const response = Chatbot.getResponse(inputText);
+
+      setChatMessages([
+        ...userInput,
+        {
+          message: response,
+          sender: 'robot',
+          id: crypto.randomUUID()
+        }
+      ]);
+      setInputText('');
+    };
+    
+  }
+
   return (
     <>
       <input 
         placeholder="Send message to chatbot"
         onChange={saveInputText}
+        onKeyDown={sendByKey}
         value={inputText}
       />
       <button onClick={sendMessage}>Send</button>
