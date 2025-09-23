@@ -3,38 +3,16 @@ const root = ReactDOM.createRoot(container);
 
 function MessageBox({ chatMessages, setChatMessages }) {
   const [inputText, setInputText] = React.useState('');
+  const [isLoading, setIsLoading] = React.useState(false);
 
   function saveInputText(event) {
     setInputText(event.target.value);
   }
 
-  function sendMessage() {
-    const userInput = [
-      ...chatMessages,
-      {
-        message: inputText,
-        sender: 'user',
-        id: crypto.randomUUID()
-      }
-    ];
-
-    setInputText('');
-
-    const response = Chatbot.getResponse(inputText);
-    setChatMessages([
-      ...userInput,
-      {
-        message: response,
-        sender: 'robot',
-        id: crypto.randomUUID()
-      }
-    ]);
-  }
-
-  function sendByKey(event) {
-    if (event.key === 'Escape') {
-      setInputText('');
-    } else if (event.key === 'Enter') {
+  async function sendMessage() {
+    if (!isLoading) {
+      setIsLoading(true);
+    
       const userInput = [
         ...chatMessages,
         {
@@ -44,8 +22,17 @@ function MessageBox({ chatMessages, setChatMessages }) {
         }
       ];
 
-      const response = Chatbot.getResponse(inputText);
-
+      setInputText('');
+      setChatMessages([
+        ...userInput,
+        {
+          message: 'loading...',
+          sender: 'robot',
+          id: crypto.randomUUID()
+        }
+      ]);
+      
+      const response = await Chatbot.getResponseAsync(inputText);
       setChatMessages([
         ...userInput,
         {
@@ -54,38 +41,97 @@ function MessageBox({ chatMessages, setChatMessages }) {
           id: crypto.randomUUID()
         }
       ]);
+      setIsLoading(false);
+      
+    } else {
       setInputText('');
+      console.log('Not allowed!!!');
+    }
+  }
+
+  async function sendByKey(event) {
+    if (event.key === 'Escape') {
+      setInputText('');
+    } else if (event.key === 'Enter') {
+      if (!isLoading) {
+        setIsLoading(true);
+        const userInput = [
+          ...chatMessages,
+          {
+            message: inputText,
+            sender: 'user',
+            id: crypto.randomUUID()
+          }
+        ];
+
+        setInputText('');
+        setChatMessages([
+          ...userInput,
+          {
+            message: 'loading...',
+            sender: 'robot',
+            id: crypto.randomUUID()
+          }
+        ]);
+
+        const response = await Chatbot.getResponseAsync(inputText);
+
+        setChatMessages([
+          ...userInput,
+          {
+            message: response,
+            sender: 'robot',
+            id: crypto.randomUUID()
+          }
+        ]);
+        setIsLoading(false);
+      } else {
+        setInputText('');
+        console.log('Not allowed!');
+      }
     };
     
   }
 
   return (
-    <>
+    <div className="message-input-container">
       <input 
         placeholder="Send message to chatbot"
         onChange={saveInputText}
         onKeyDown={sendByKey}
         value={inputText}
+        className="text-input"
       />
-      <button onClick={sendMessage}>Send</button>
-    </>
-  );
-}
-
-function ChatMessage({ message, sender }) {
-  return (
-    <div>
-      {sender === "robot" && <img src="robot.png" width="50" />}
-      {message}
-      {sender === "user" && <img src="./user.png" width="50" />}
+      <button 
+        onClick={sendMessage}
+        className="send-button"
+      >Send
+      </button>
     </div>
   );
 }
 
 
-function ChatMessages({chatMessages}) {
+function ChatMessage({ message, sender }) {
   return (
-    <>
+    <div className={
+      sender === 'user' 
+      ? 'chat-message-user' 
+      : 'chat-message-robot'
+    }>
+      {sender === "robot" && <img src="robot.png" className="image-profile" />}
+      <div className="message-text">
+        {message}
+      </div>
+      {sender === "user" && <img src="./user.png" className="image-profile" />}
+    </div>
+  );
+}
+
+
+function ChatMessages({ chatMessages }) {
+  return (
+    <div className="chat-messages-container">
       {chatMessages.map((chatMessage) => {
         return (
           <ChatMessage 
@@ -95,7 +141,7 @@ function ChatMessages({chatMessages}) {
           />
         );
       })}
-    </>
+    </div>
   );
 }
 
@@ -121,15 +167,15 @@ function App() {
   }]);
 
   return (
-    <>
+    <div className="app-container">
+      <ChatMessages 
+        chatMessages={chatMessages}
+      />
       <MessageBox 
         chatMessages={chatMessages}
         setChatMessages={setChatMessages}
       />
-      <ChatMessages 
-        chatMessages={chatMessages}
-      />
-    </>
+    </div>
   );
 }
 
