@@ -130,8 +130,19 @@ function ChatMessage({ message, sender }) {
 
 
 function ChatMessages({ chatMessages }) {
+  const chatMessagesRef = React.useRef(null);
+
+  React.useEffect(() => {
+    const chatMessagesElem = chatMessagesRef.current;
+    if (chatMessagesElem) {
+      chatMessagesElem.scrollTop = chatMessagesElem.scrollHeight;
+    }
+  },[chatMessages])
+
+
   return (
-    <div className="chat-messages-container">
+    <div className="chat-messages-container"
+          ref={chatMessagesRef}>
       {chatMessages.map((chatMessage) => {
         return (
           <ChatMessage 
