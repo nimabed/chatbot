@@ -129,7 +129,8 @@ function ChatMessage({ message, sender }) {
 }
 
 
-function ChatMessages({ chatMessages }) {
+// Custom hook
+function useAutoScroll(dependencies) {
   const chatMessagesRef = React.useRef(null);
 
   React.useEffect(() => {
@@ -137,8 +138,15 @@ function ChatMessages({ chatMessages }) {
     if (chatMessagesElem) {
       chatMessagesElem.scrollTop = chatMessagesElem.scrollHeight;
     }
-  },[chatMessages])
+  },[dependencies]);
 
+  return chatMessagesRef;
+
+}
+
+
+function ChatMessages({ chatMessages }) {
+  const chatMessagesRef = useAutoScroll(chatMessages);
 
   return (
     <div className="chat-messages-container"
