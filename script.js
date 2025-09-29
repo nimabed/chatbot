@@ -26,7 +26,7 @@ function MessageBox({ chatMessages, setChatMessages }) {
       setChatMessages([
         ...userInput,
         {
-          message: 'loading...',
+          message: <img src="./loading-spinner.gif" className="loading-spinner" />,
           sender: 'robot',
           id: crypto.randomUUID()
         }
@@ -68,7 +68,7 @@ function MessageBox({ chatMessages, setChatMessages }) {
         setChatMessages([
           ...userInput,
           {
-            message: 'loading...',
+            message: <img src="./loading-spinner.gif" className="loading-spinner" />,
             sender: 'robot',
             id: crypto.randomUUID()
           }
