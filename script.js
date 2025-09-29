@@ -143,6 +143,9 @@ function ChatMessages({ chatMessages }) {
   return (
     <div className="chat-messages-container"
           ref={chatMessagesRef}>
+      
+      <h2 className={chatMessages.length ? 'no-welcome' : 'show-welcome'}>Welcome, Ask anything from box below.</h2>
+
       {chatMessages.map((chatMessage) => {
         return (
           <ChatMessage 
@@ -159,23 +162,7 @@ function ChatMessages({ chatMessages }) {
 
 function App() {
 
-  const [chatMessages, setChatMessages] = React.useState([{
-    message: 'Hello chatbot',
-    sender: 'user',
-    id: 'id1'
-  }, {
-    message: 'Hi, How can i help you?',
-    sender: 'robot',
-    id: 'id2'
-  }, {
-    message: 'Flip the coin',
-    sender: 'user',
-    id: 'id3'
-  }, {
-    message: 'Fliped and it is head',
-    sender: 'robot',
-    id: 'id4'
-  }]);
+  const [chatMessages, setChatMessages] = React.useState([]);
 
   return (
     <div className="app-container">

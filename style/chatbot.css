@@ -68,6 +68,14 @@ body {
   width: 45px;
 }
 
+.no-welcome {
+  display: none;
+}
+
+.show-welcome {
+  align-self: center;
+  margin: auto;
+}
 
 
 
