@@ -1,0 +1,26 @@
+.message-input-container {
+  display: flex;
+  margin-bottom: 2rem;
+}
+
+.send-button {
+  background-color: rgb(25, 135, 84);
+  color: white;
+  padding: 15px 20px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.text-input {
+  flex-grow: 1;
+  padding: 10px 15px;
+  border-radius: 10px;
+  margin-right: 10px;
+  border-width: 1px;
+}
+
+.loading-spinner {
+  height: 40px;
+  margin: -15px;
+}
