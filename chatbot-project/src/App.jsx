@@ -5,7 +5,6 @@ import ChatMessages from './components/ChatMessages';
 import './App.css';
 
 
-
 function App() {
   const [chatMessages,
          setChatMessages
@@ -25,7 +24,6 @@ function App() {
   },[]);
 
   
-
   return (
     <div className="app-container">
       <ChatMessages 

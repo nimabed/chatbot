@@ -100,6 +100,11 @@ export function MessageBox({ chatMessages, setChatMessages }) {
     
   }
 
+  function clearHistory() {
+    setChatMessages([]);
+    localStorage.removeItem('messages');
+  }
+
   return (
     <div className="message-input-container">
       <input 
@@ -114,6 +119,10 @@ export function MessageBox({ chatMessages, setChatMessages }) {
         className="send-button"
       >Send
       </button>
+      <button
+        onClick={clearHistory}
+        className="clear-button"
+      >Clear</button>
     </div>
   );
 }
