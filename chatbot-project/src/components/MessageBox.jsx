@@ -32,7 +32,6 @@ export function MessageBox({ chatMessages, setChatMessages }) {
         {
           message: <img src={LoadingSpinner} className="loading-spinner" />,
           sender: 'robot',
-          time: dayjs().format('h:mma'),
           id: crypto.randomUUID()
         }
       ]);
@@ -77,7 +76,6 @@ export function MessageBox({ chatMessages, setChatMessages }) {
           {
             message: <img src={LoadingSpinner} className="loading-spinner" />,
             sender: 'robot',
-            time: dayjs().format('h:mma'),
             id: crypto.randomUUID()
           }
         ]);
