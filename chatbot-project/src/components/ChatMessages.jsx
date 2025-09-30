@@ -26,13 +26,20 @@ function ChatMessages({ chatMessages }) {
     <div className="chat-messages-container"
           ref={chatMessagesRef}>
       
-      <h2 className={chatMessages.length ? 'no-welcome' : 'show-welcome'}>Welcome, Ask anything from box below.</h2>
+      <h2 
+        className={
+          chatMessages.length 
+          ? 'no-welcome' 
+          : 'show-welcome'
+        }>Welcome, Ask anything from box below.
+      </h2>
 
       {chatMessages.map((chatMessage) => {
         return (
           <ChatMessage 
             message = {chatMessage.message}
             sender = {chatMessage.sender}
+            time = {chatMessage.time}
             key = {chatMessage.id}
           />
         );

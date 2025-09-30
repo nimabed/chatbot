@@ -20,3 +20,8 @@
 .image-profile {
   width: 45px;
 }
+
+.message-time {
+  color: rgb(117, 117, 117);
+  margin-top: 5px;
+}
